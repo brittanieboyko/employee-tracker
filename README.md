@@ -1,7 +1,7 @@
 # employee-tracker
-Employee Tracker is a solution for managing a company's employees using node, inquirer, and MySQL.
+Employee Tracker is a tool for managing a company's employees using node, inquirer, and MySQL.
 
-## With Employee Tracker you are allowed to
+### With Employee Tracker you are able to to
 * Add departments, roles, employees
 * View departments, roles, employees
 * Update employee roles
