@@ -21,6 +21,16 @@ const addDepartmentPrompt = [{
     message: "Add a new department"
 }];
 
+const addRolePrompt = [{
+    message: "What is the role you'd like to add?",
+    type: "input",
+    name: "role"
+}, {
+    message: "What is the salary of this role?",
+    type: "input",
+    name: "salary"
+}];
+
 const init = () => {
     inquirer
         .prompt({
@@ -61,7 +71,7 @@ const init = () => {
                     break;
 
                 case "Add Role":
-                    console.log("add role")
+                    addRole();
                     break;
 
                 case "Update Employee Role":
@@ -93,6 +103,23 @@ const addDepartment = () => {
                 function(err, res) {
                     if (err) throw err;
                     console.log(res.affectedRows + " new department added!\n");
+                    init();
+                });
+
+        });
+}
+
+const addRole = () => {
+    inquirer.prompt(addRolePrompt)
+        .then((response) => {
+            connection.query("INSERT INTO role SET ?", {
+                    title: response.role,
+                    salary: response.salary
+                },
+
+                function(err, res) {
+                    if (err) throw err;
+                    console.log(res.affectedRows + " new role added!\n");
                     init();
                 });
 
