@@ -7,6 +7,7 @@ Employee Tracker is a tool for managing a company's employees using node, inquir
 * Update employee roles
 
 ## Installation
+* Navigate to line 9 of app.js and add your root password
 * Navigate to the project's root directory and run `npm install`
 * The application is invoked with the command `node app.js`
 
