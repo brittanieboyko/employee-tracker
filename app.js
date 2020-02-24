@@ -15,6 +15,12 @@ connection.connect((err) => {
     init();
 });
 
+const addDepartmentPrompt = [{
+    name: "department",
+    type: "input",
+    message: "Add a new department"
+}];
+
 const init = () => {
     inquirer
         .prompt({
@@ -32,7 +38,7 @@ const init = () => {
                 "Nothing"
             ]
         })
-        .then(function (response) {
+        .then((response) => {
             switch (response.selection) {
                 case "View all Employees":
                     viewAll("employee");
@@ -51,7 +57,7 @@ const init = () => {
                     break;
 
                 case "Add Department":
-                    console.log("add department")
+                    addDepartment();
                     break;
 
                 case "Add Role":
@@ -69,9 +75,26 @@ const init = () => {
 }
 
 const viewAll = (table) => {
-    var query = "SELECT * from ??";
-    connection.query(query, [table], function (err, res) {
+    let query = "SELECT * from ??";
+    connection.query(query, [table], function(err, res) {
         if (err) throw err;
         console.table(res);
+        init();
     });
 };
+
+const addDepartment = () => {
+    inquirer.prompt(addDepartmentPrompt)
+        .then((response) => {
+            connection.query("INSERT INTO department SET ?", {
+                    name: response.department
+                },
+
+                function(err, res) {
+                    if (err) throw err;
+                    console.log(res.affectedRows + " new department added!\n");
+                    init();
+                });
+
+        });
+}
