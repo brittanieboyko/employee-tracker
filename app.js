@@ -35,15 +35,15 @@ const init = () => {
         .then(function (response) {
             switch (response.selection) {
                 case "View all Employees":
-                    viewEmployees();
+                    viewAll("employee");
                     break;
 
                 case "View all Departments":
-                    console.log("view departments")
+                    viewAll("department");
                     break;
 
                 case "View all Roles":
-                    console.log("view roles")
+                    viewAll("role");
                     break;
 
                 case "Add Employee":
@@ -68,9 +68,9 @@ const init = () => {
         });
 }
 
-const viewEmployees = () => {
-    var query = "SELECT * from employee";
-    connection.query(query, function (err, res) {
+const viewAll = (table) => {
+    var query = "SELECT * from ??";
+    connection.query(query, [table], function (err, res) {
         if (err) throw err;
         console.table(res);
     });
