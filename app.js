@@ -31,6 +31,26 @@ const addRolePrompt = [{
     name: "salary"
 }];
 
+const addEmployeePrompt = [{
+    message: "What is the employee's first name?",
+    type: "input",
+    name: "firstName"
+}, {
+    message: "What is the employee's last name?",
+    type: "input",
+    name: "lastName"
+}];
+
+const updateEmployeePrompt = [{
+    message: "What is the id of the employee you want like to update?",
+    type: "input",
+    name: "employeeId"
+}, {
+    message: "What is the new role id of the employee?",
+    type: "input",
+    name: "roleId"
+}];
+
 const init = () => {
     inquirer
         .prompt({
@@ -45,7 +65,7 @@ const init = () => {
                 "Add Department",
                 "Add Role",
                 "Update Employee Role",
-                "Nothing"
+                "Exit"
             ]
         })
         .then((response) => {
@@ -63,7 +83,7 @@ const init = () => {
                     break;
 
                 case "Add Employee":
-                    console.log("add employee")
+                    addEmployee();
                     break;
 
                 case "Add Department":
@@ -75,9 +95,9 @@ const init = () => {
                     break;
 
                 case "Update Employee Role":
-                    console.log("update role")
+                    updateEmployee();
                     break;
-                case "Nothing":
+                case "Exit":
                     connection.end();
                     break;
             }
@@ -123,5 +143,35 @@ const addRole = () => {
                     init();
                 });
 
+        });
+}
+
+const addEmployee = () => {
+    inquirer.prompt(addEmployeePrompt)
+        .then((response) => {
+            connection.query("INSERT INTO employee SET ?", {
+                    first_name: response.firstName,
+                    last_name: response.lastName
+                },
+
+                function(err, res) {
+                    if (err) throw err;
+                    console.log(res.affectedRows + " new employee added!\n");
+                    init();
+                });
+
+        });
+}
+
+const updateEmployee = () => {
+    inquirer.prompt(updateEmployeePrompt)
+        .then((response) => {
+            connection.query("UPDATE employee SET role_id = ? WHERE id = ?",
+                [response.roleId, response.employeeId],
+
+                function(err, res) {
+                    if (err) throw err;
+                    init();
+                });
         });
 }
